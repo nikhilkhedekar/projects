@@ -1,0 +1,913 @@
+openapi: 3.0.0
+info:
+  title: mern
+  contact: {}
+  version: '1.0'
+servers:
+- url: http://localhost:8080
+  variables: {}
+paths:
+  /:
+    get:
+      tags:
+      - Auth
+      summary: home
+      operationId: home
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+  /api/v1/auth/register:
+    post:
+      tags:
+      - Auth
+      summary: register
+      operationId: register
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/registerrequest'
+            example:
+              name: string
+              email: string
+              password: string
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+  /api/v1/auth/login:
+    post:
+      tags:
+      - Auth
+      summary: login
+      operationId: login
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/loginrequest'
+            example:
+              email: string
+              password: string
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+  /api/v1/auth/verify-email:
+    post:
+      tags:
+      - User
+      summary: verify-email
+      operationId: verify-email
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/verify-email-request'
+            example:
+              verificationToken: string
+              email: string
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+  /api/v1/auth/logout:
+    delete:
+      tags:
+      - User
+      summary: logout
+      operationId: logout
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - bearer: []
+  /api/v1/auth/forgot-password:
+    post:
+      tags:
+      - User
+      summary: forgot-password
+      operationId: forgot-password
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/forgot-password-request'
+            example:
+              email: string
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+  /api/v1/auth/reset-password:
+    post:
+      tags:
+      - User
+      summary: reset-password
+      operationId: reset-password
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/reset-password-request'
+            example:
+              token: string
+              password: string
+              email: string
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+  /api/v1/users:
+    get:
+      tags:
+      - Admin - User
+      summary: getAllUsers
+      operationId: getAllUsers
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - bearer: []
+  /api/v1/users/{id}:
+    get:
+      tags:
+      - User Profile
+      summary: getSingleUser
+      operationId: getSingleUser
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - bearer: []
+  /api/v1/users/showMe:
+    get:
+      tags:
+      - User Profile
+      summary: showMe
+      operationId: showMe
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - bearer: []
+  /api/v1/users/updateUser:
+    patch:
+      tags:
+      - User Profile
+      summary: updateUser
+      operationId: updateUser
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updateUserRequest'
+            example:
+              name: string
+              email: string
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - bearer: []
+  /api/v1/users/updateUserPassword:
+    patch:
+      tags:
+      - User Profile
+      summary: updateUserPassword
+      operationId: updateUserPassword
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updateUserPasswordRequest'
+            example:
+              oldPassword: string
+              newPassword: string
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - bearer: []
+  /api/v1/products:
+    post:
+      tags:
+      - Admin - Product
+      summary: createProducts
+      operationId: createProducts
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createProductsRequest'
+            example:
+              name: string
+              price: munber
+              description: string
+              image: string
+              category: string
+              company: string
+              colors: string
+              inventory: number
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - bearer: []
+    get:
+      tags:
+      - User - Product
+      summary: getAllProducts
+      operationId: getAllProducts
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - bearer: []
+  /api/v1/products/{id}:
+    patch:
+      tags:
+      - Admin - Product
+      summary: updateProduct
+      operationId: updateProduct
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updateProductRequest'
+            example:
+              name: string
+              price: number
+              description: string
+              image: string
+              category: string
+              company: string
+              colors: string
+              inventory: number
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - bearer: []
+    delete:
+      tags:
+      - Admin - Product
+      summary: deleteProduct
+      operationId: deleteProduct
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - bearer: []
+    get:
+      tags:
+      - User - Product
+      summary: getSingleProduct
+      operationId: getSingleProduct
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+  /api/v1/reviews:
+    post:
+      tags:
+      - User - Reviews
+      summary: createReviews
+      operationId: createReviews
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createReviewsRequest'
+            example:
+              rating: number
+              title: string
+              comment: string
+              product: id
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - bearer: []
+    get:
+      tags:
+      - User - Reviews
+      summary: getAllReviews
+      operationId: getAllReviews
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - bearer: []
+  /api/v1/reviews/{id}:
+    get:
+      tags:
+      - User - Reviews
+      summary: getSingleReview
+      operationId: getSingleReview
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - bearer: []
+    patch:
+      tags:
+      - User - Reviews
+      summary: updateReview
+      operationId: updateReview
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updateReviewRequest'
+            example:
+              rating: number
+              title: string
+              comment: string
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - bearer: []
+    delete:
+      tags:
+      - User - Reviews
+      summary: deleteReiview
+      operationId: deleteReiview
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - bearer: []
+  /api/v1/orders:
+    post:
+      tags:
+      - User - Orders
+      summary: createOrders
+      operationId: createOrders
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createOrdersRequest'
+            example:
+              tax: number
+              shippingFee: number
+              subtotal: number
+              total: number
+              orderItems:
+              - name: string
+                image: string
+                price: number
+                amount: number
+                product: id
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - bearer: []
+    get:
+      tags:
+      - User - Orders
+      summary: getAllOrders
+      operationId: getAllOrders
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - bearer: []
+  /api/v1/orders/showAllMyOrders:
+    get:
+      tags:
+      - User - Orders
+      summary: getCurrentUserOrders
+      operationId: getCurrentUserOrders
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - bearer: []
+  /api/v1/orders/{id}:
+    get:
+      tags:
+      - User - Orders
+      summary: getSingleOrder
+      operationId: getSingleOrder
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - bearer: []
+    patch:
+      tags:
+      - User - Orders
+      summary: updateOrder
+      operationId: updateOrder
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updateOrderRequest'
+            example:
+              tax: number
+              shippingFee: number
+              subtotal: number
+              total: number
+              orderItems:
+              - name: string
+                image: string
+                price: number
+                amount: number
+                product: id
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - bearer: []
+components:
+  schemas:
+    registerrequest:
+      title: registerrequest
+      required:
+      - name
+      - email
+      - password
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+      example:
+        name: nikhilkhedekar
+        email: nikhil@gmail.com
+        password: nikhil@123
+    verify-email-request:
+      title: verify-email-request
+      required:
+      - verificationToken
+      - email
+      type: object
+      properties:
+        verificationToken:
+          type: string
+        email:
+          type: string
+      example:
+        verificationToken: 5886ccb00ab10f5fe5350a0261a556e05708d5de4e6774ccf48a075c30a71e3680504054ed8188fe
+        email: nikhil@gmail.com
+    loginrequest:
+      title: loginrequest
+      required:
+      - email
+      - password
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      example:
+        email: nikhil@gmail.com
+        password: nikhil@123
+    logoutrequest:
+      title: logoutrequest
+      required:
+      - user
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/User'
+      example:
+        user:
+          name: nikhil
+          userId: 62f73591a15d7bf9739f4044
+          role: admin
+    User:
+      title: User
+      required:
+      - name
+      - userId
+      - role
+      type: object
+      properties:
+        name:
+          type: string
+        userId:
+          type: string
+        role:
+          type: string
+      example:
+        name: nikhil
+        userId: 62f73591a15d7bf9739f4044
+        role: admin
+    forgot-password-request:
+      title: forgot-password-request
+      required:
+      - email
+      type: object
+      properties:
+        email:
+          type: string
+      example:
+        email: nikhil@gmail.com
+    reset-password-request:
+      title: reset-password-request
+      required:
+      - token
+      - password
+      - email
+      type: object
+      properties:
+        token:
+          type: string
+        password:
+          type: string
+        email:
+          type: string
+      example:
+        token: 0dab77d3f8d318465d8d43d82d30e10a
+        password: nikhil@1234
+        email: nikhil@gmail.com
+    updateUserRequest:
+      title: updateUserRequest
+      required:
+      - name
+      - email
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+      example:
+        name: nikhil_nmk
+        email: nikhil@gmail.com
+    updateUserPasswordRequest:
+      title: updateUserPasswordRequest
+      required:
+      - oldPassword
+      - newPassword
+      type: object
+      properties:
+        oldPassword:
+          type: string
+        newPassword:
+          type: string
+      example:
+        oldPassword: nikhil@1234
+        newPassword: nikhil@123
+    createProductsRequest:
+      title: createProductsRequest
+      required:
+      - name
+      - price
+      - description
+      - image
+      - category
+      - company
+      - colors
+      - inventory
+      type: object
+      properties:
+        name:
+          type: string
+        price:
+          type: integer
+          format: int32
+        description:
+          type: string
+        image:
+          type: string
+        category:
+          type: string
+        company:
+          type: string
+        colors:
+          type: string
+        inventory:
+          type: integer
+          format: int32
+      example:
+        name: chair
+        price: 3000
+        description: something something
+        image: /uploads/example.jpeg
+        category: office
+        company: liddy
+        colors: ''
+        inventory: 15
+    updateProductRequest:
+      title: updateProductRequest
+      required:
+      - name
+      - price
+      - description
+      - image
+      - category
+      - company
+      - colors
+      - inventory
+      type: object
+      properties:
+        name:
+          type: string
+        price:
+          type: integer
+          format: int32
+        description:
+          type: string
+        image:
+          type: string
+        category:
+          type: string
+        company:
+          type: string
+        colors:
+          type: string
+        inventory:
+          type: integer
+          format: int32
+      example:
+        name: chair
+        price: 3500
+        description: something something
+        image: /uploads/example.jpeg
+        category: office
+        company: liddy
+        colors: ''
+        inventory: 15
+    createReviewsRequest:
+      title: createReviewsRequest
+      required:
+      - rating
+      - title
+      - comment
+      - product
+      type: object
+      properties:
+        rating:
+          type: integer
+          format: int32
+        title:
+          type: string
+        comment:
+          type: string
+        product:
+          type: string
+      example:
+        rating: 5
+        title: Review on bed
+        comment: My Review on bed
+        product: 62f7a5e4290ef614d2b463d2
+    updateReviewRequest:
+      title: updateReviewRequest
+      required:
+      - rating
+      - title
+      - comment
+      type: object
+      properties:
+        rating:
+          type: integer
+          format: int32
+        title:
+          type: string
+        comment:
+          type: string
+      example:
+        rating: 5
+        title: Review on bed
+        comment: Good
+    createOrdersRequest:
+      title: createOrdersRequest
+      required:
+      - tax
+      - shippingFee
+      - subtotal
+      - total
+      - orderItems
+      type: object
+      properties:
+        tax:
+          type: integer
+          format: int32
+        shippingFee:
+          type: integer
+          format: int32
+        subtotal:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int32
+        orderItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderItem'
+          description: ''
+      example:
+        tax: 100
+        shippingFee: 1000
+        subtotal: 0
+        total: 0
+        orderItems:
+        - name: firstOrder
+          image: /uploads/example.jpeg
+          price: 10000
+          amount: 1
+          product: 62f88c52c3f88a01629a05f8
+    OrderItem:
+      title: OrderItem
+      required:
+      - name
+      - image
+      - price
+      - amount
+      - product
+      type: object
+      properties:
+        name:
+          type: string
+        image:
+          type: string
+        price:
+          type: integer
+          format: int32
+        amount:
+          type: integer
+          format: int32
+        product:
+          type: string
+      example:
+        name: firstOrder
+        image: /uploads/example.jpeg
+        price: 10000
+        amount: 1
+        product: 62f88c52c3f88a01629a05f8
+    updateOrderRequest:
+      title: updateOrderRequest
+      required:
+      - tax
+      - shippingFee
+      - subtotal
+      - total
+      - orderItems
+      type: object
+      properties:
+        tax:
+          type: integer
+          format: int32
+        shippingFee:
+          type: integer
+          format: int32
+        subtotal:
+          type: integer
+          format: int32
+        total:
+          type: integer
+          format: int32
+        orderItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderItem'
+          description: ''
+      example:
+        tax: 100
+        shippingFee: 900
+        subtotal: 0
+        total: 0
+        orderItems:
+        - name: updatedOrder
+          image: /uploads/example.jpeg
+          price: 10000
+          amount: 1
+          product: 62f88c52c3f88a01629a05f8
+  securitySchemes:
+    bearer:
+      type: http
+      scheme: bearer
+security: []
+tags:
+- name: Auth
+  description: ''
+- name: User
+  description: ''
+- name: Admin - User
+  description: ''
+- name: User Profile
+  description: ''
+- name: Admin - Product
+  description: ''
+- name: User - Product
+  description: ''
+- name: User - Reviews
+  description: ''
+- name: User - Orders
+  description: ''
