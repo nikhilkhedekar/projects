@@ -44,7 +44,7 @@ const ProductDetails = () => {
     const [
         getProduct,
         { data },
-    ] = useLazyQuery(GET_SINGLE_PRODUCT);
+    ] = useLazyQuery(GET_SINGLE_PRODUCT);    
 
     const currentUserCartState = useSelector(state => state?.currentUserCart);
 
@@ -63,7 +63,7 @@ const ProductDetails = () => {
     }, [getProduct, params, dispatch, currentUserCart]);
 
     console.log("data", data?.getSingleProduct);
-    console.log("length", currentUserCartState?.cart?.[0]?.cartItems.length);
+    console.log("length", currentUserCartState?.cart?.[0]?.cartItems.length);    
     return (
         <Paper sx={{ padding: '32px' }} elevation={2}>
             <Stack border='1px solid' spacing={2} >
@@ -77,22 +77,22 @@ const ProductDetails = () => {
                     />
                 </ImageListItem>
                 <Stack margin={3} alignSelf="center" >
-                <Typography variant="h4" >{data?.getSingleProduct?.name}</Typography>
-                <Typography variant="h6" > ₹{data?.getSingleProduct?.price} </Typography>
-                <Typography variant="h6" >Company: {data?.getSingleProduct?.company} </Typography>
-                <Typography variant="h6" >Category: {data?.getSingleProduct?.category} </Typography>
-                <Typography variant="subtitle1" >Description: {data?.getSingleProduct?.description}</Typography>
-                <Typography variant="h6"  >No of Reviews: {data?.getSingleProduct?.numOfReviews}</Typography>
-                <Stack spacing={2}>
-                    <Rating
-                        value={data?.getSingleProduct?.averageRating}
-                        // precision={0.5}
-                        size='medium'
-                        icon={<StarIcon fontSize='inherit' color='yellow' />}
-                        emptyIcon={<StarOutlineIcon fontSize='inherit' />}
-                        readOnly
-                    />
-                </Stack>
+                    <Typography variant="h4" >{data?.getSingleProduct?.name}</Typography>
+                    <Typography variant="h6" > ₹{data?.getSingleProduct?.price} </Typography>
+                    <Typography variant="h6" >Company: {data?.getSingleProduct?.company} </Typography>
+                    <Typography variant="h6" >Category: {data?.getSingleProduct?.category} </Typography>
+                    <Typography variant="subtitle1" >Description: {data?.getSingleProduct?.description}</Typography>
+                    <Typography variant="h6"  >No of Reviews: {data?.getSingleProduct?.numOfReviews}</Typography>
+                    <Stack spacing={2}>
+                        <Rating
+                            value={data?.getSingleProduct?.averageRating}
+                            // precision={0.5}
+                            size='medium'
+                            icon={<StarIcon fontSize='inherit' color='yellow' />}
+                            emptyIcon={<StarOutlineIcon fontSize='inherit' />}
+                            readOnly
+                        />
+                    </Stack>
                 </Stack>
                 <Stack spacing={2} direction="row" >
                     <CreateReviewsButton ref={addReviewRef} productId={params.id} />
@@ -103,7 +103,13 @@ const ProductDetails = () => {
                             <AddToCartButton ref={addToCartRef} productId={params.id} />
                     }
                     <StripeProvider>
-                        <OrderButton ref={orderButtonRef} productId={params.id} />
+                        <OrderButton ref={orderButtonRef} product={{
+                            amount: 0,
+                            name: data?.getSingleProduct?.name,
+                            price: data?.getSingleProduct?.price,
+                            image: data?.getSingleProduct?.image,
+                            _id: data?.getSingleProduct?._id
+                        }} />
                     </StripeProvider>
                 </Stack>
 

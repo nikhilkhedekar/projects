@@ -1,4 +1,4 @@
-import { createOrderState, currentUserOrdersState, getSingleOrderState, updateOrderState } from "../initStates/orderState"; 
+import { createOrderState, createUpiOrderState, currentUserOrdersState, getSingleOrderState, updateOrderState } from "../initStates/orderState"; 
 import {
     CREATE_ORDER_REQUEST,
     CREATE_ORDER_SUCCESS,
@@ -9,6 +9,9 @@ import {
     GET_SINGLE_ORDER_REQUEST,
     GET_SINGLE_ORDER_SUCCESS,
     GET_SINGLE_ORDER_FAIL,
+    UPI_ORDER_REQUEST,
+    UPI_ORDER_SUCCESS,
+    UPI_ORDER_FAIL,
  } from "../types/orderTypes"
 
 export const orderReducer = (state = createOrderState, action) => {
@@ -45,6 +48,19 @@ export const singleOrderReducer = (state = getSingleOrderState, action) => {
             console.log("dataReducer", action.payload);
             return { loading: false, order: action.payload };
         case GET_SINGLE_ORDER_FAIL:
+            return { loading: false, order: null, error: action.payload };
+    }
+    return state;
+}
+
+export const upiOrderReducer = (state = createUpiOrderState, action) => {
+    switch (action.type){
+        case UPI_ORDER_REQUEST:
+            return { loading: true, order: null };
+        case UPI_ORDER_SUCCESS:
+            console.log("dataReducer", action.payload);
+            return { loading: false, order: action.payload };
+        case UPI_ORDER_FAIL:
             return { loading: false, order: null, error: action.payload };
     }
     return state;

@@ -4,8 +4,9 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import { productReducer, productsReducer } from "../reducers/productReducers";
 import { deleteReviewReducer, postReviewReducer, reviewReducer, reviewsReducer, updateReviewReducer } from "../reducers/reviewReducers";
 import { updatePasswordReducer, updateUserReducer } from "../reducers/userReducers";
-import { currentUserOrderReducer, orderReducer, singleOrderReducer, updateOrderReducer } from "../reducers/orderReducers";
-import { addToCartReducer, cartCheckoutReducer, cartItemDetailsReducer, currentUserCartReducer, updateCartReducer } from "../reducers/cartReducer";
+import { currentUserOrderReducer, orderReducer, singleOrderReducer, updateOrderReducer, upiOrderReducer } from "../reducers/orderReducers";
+import { addToCartReducer, cartCheckoutReducer, cartItemDetailsReducer, currentUserCartReducer, updateCartReducer, upiCartCheckoutReducer } from "../reducers/cartReducer";
+import { storesReducer } from "../reducers/storeReducer";
 
 export const store = createStore(
     combineReducers({
@@ -24,12 +25,16 @@ export const store = createStore(
         createOrder: orderReducer,
         userOrders: currentUserOrderReducer,
         singleOrder: singleOrderReducer,
+        upiOrder: upiOrderReducer,
 
         addToCart: addToCartReducer,
         currentUserCart: currentUserCartReducer,
         cartItemDetails: cartItemDetailsReducer,
         cartCheckout: cartCheckoutReducer,
-        updateCart: updateCartReducer
+        updateCart: updateCartReducer,
+        upiCartCheckout: upiCartCheckoutReducer,
+        
+        stores: storesReducer
     }),
     {},
     composeWithDevTools(applyMiddleware(thunk))

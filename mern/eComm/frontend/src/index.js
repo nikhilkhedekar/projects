@@ -8,22 +8,25 @@ import { store } from './store/store';
 import { ApolloProvider } from '@apollo/client';
 import { apolloClient } from './apolloClient';
 import { MapProvider } from "react-map-gl";
-import { StripeProvider } from './providers/stripePaymentIntentProvider';
+import { BrowserRouter } from 'react-router-dom';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
+import AlanProvider from './providers/alanProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <ApolloProvider client={apolloClient} >
       <AuthProvider>
-        {/* <StripeProvider> */}
         <Provider store={store} >
           <MapProvider>
-            <App />
+            <BrowserRouter>
+              <AlanProvider>
+                <App />
+              </AlanProvider>
+            </BrowserRouter>
           </MapProvider>
         </Provider>
-        {/* </StripeProvider> */}
       </AuthProvider>
     </ApolloProvider>
   </React.StrictMode>

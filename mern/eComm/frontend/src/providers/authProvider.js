@@ -10,7 +10,8 @@ const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    const accessToken = localStorage.getItem("accessToken");  
+    const accessToken = localStorage.getItem("accessToken"); 
+    console.log("cookies", document.cookie);    
     if (accessToken) {
       const decodedToken = jwtDecode(accessToken);
       let clientData, cartData;
@@ -48,9 +49,10 @@ const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  const register = async (name, email, password) => {
+  const register = async (name, email, password, address, long, lat) => {
     try {
-      const { data } = await AxiosInstance.post(`/api/v1/auth/register`, { name, email, password });
+      console.log("regUser", { name, email, password, address, long, lat });
+      const { data } = await AxiosInstance.post(`/api/v1/auth/register`, { name, email, password, address, long, lat });
       return data;
     } catch (error) {
       console.log("Error", error);
@@ -59,7 +61,7 @@ const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const { data, headers } = await AxiosInstance.post(`/api/v1/auth/login`, { email, password });
+      const { data, headers } = await AxiosInstance.post(`/api/v1/auth/login`, { email, password });      
       const decodedToken = jwtDecode(data?.tokens?.accessToken);
       setUser(decodedToken.user);
       localStorage.setItem("accessToken", data?.tokens?.accessToken);

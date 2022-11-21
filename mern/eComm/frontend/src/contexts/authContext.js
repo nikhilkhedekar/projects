@@ -6,7 +6,7 @@ const AuthContext = createContext({
     cartCount: 0,
     isLoggedIn: false,
     data: null,    
-    register: (name, email, password) => {},
+    register: (name, email, password, address, long, lat) => {},
     login: (email, password) => {},
     logout: () => {},
     verifyEmail: (verificationToken, email) => {},

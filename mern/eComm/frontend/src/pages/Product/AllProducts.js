@@ -101,7 +101,7 @@ const AllProducts = () => {
                                     <CardActions>
                                         <Stack spacing={2} direction='row' >
                                         <StripeProvider>
-                                            <OrderButton ref={orderButtonRef} productId={products._id} />
+                                            <OrderButton ref={orderButtonRef} product={products} />
                                         </StripeProvider>
                                         {
                                             currentUserCartState?.cart?.[0]?.cartItems.length >= 1 ?

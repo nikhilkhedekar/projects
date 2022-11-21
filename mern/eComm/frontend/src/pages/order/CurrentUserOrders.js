@@ -1,14 +1,18 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux"
 import { Link } from "react-router-dom";
 import { currentUserOrders } from "../../actions/orderActions";
 
 import { Card, Typography, CardHeader, CardContent, Box } from '@mui/material';
 import { Timeline, TimelineDot, TimelineItem, TimelineContent, TimelineSeparator, TimelineConnector } from '@mui/lab';
+import AlanContext from "../../contexts/alanContext";
 
 const CurrentUserOrders = () => {
+    const alanCtx = useContext(AlanContext);
     const dispatch = useDispatch();
     const userOrders = useSelector(state => state?.userOrders);
+
+    alanCtx.alanBtn.setVisualState({screen: "orders"});
 
     useEffect(() => {
         dispatch(currentUserOrders());

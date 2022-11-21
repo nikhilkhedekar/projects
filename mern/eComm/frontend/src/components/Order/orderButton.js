@@ -1,7 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
-import { forwardRef, useImperativeHandle, useState } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import { useStripe } from "@stripe/react-stripe-js";
-import { createOrder } from "../../actions/orderActions";
+import { createOrder, createUpiOrder } from "../../actions/orderActions";
+import GooglePayButton from '@google-pay/button-react';
+import { v4 as uuidv4 } from 'uuid';
 
 import {
     Button, Dialog,
@@ -13,8 +15,11 @@ import {
     InputAdornment,
     Grid
 } from "@mui/material";
+import GPayButton from "./gPayButton";
+import AxiosInstance from "../../axiosinstance";
 
-const OrderButton = forwardRef(({ productId }, ref) => {
+const OrderButton = forwardRef(({ product }, ref) => {
+
     const [buttonState, setButtonState] = useState(false);
     const [orderDetails, setOrderDetails] = useState({
         tax: 0,
@@ -24,16 +29,21 @@ const OrderButton = forwardRef(({ productId }, ref) => {
     const dispatch = useDispatch();
     const stripe = useStripe();
     const payment = useSelector(state => state?.createOrder);
+    const [otp, setOtp] = useState("");
+    const [token, setToken] = useState("");
 
-    const clickHandler = () => {
+    const clickHandler = async () => {
         setButtonState(!buttonState);
+        const getOtp = await AxiosInstance.patch("/api/v1/users/otp/create");
+        setToken(getOtp.data.token);
+        console.log("otpRes", getOtp);
     }
 
     useImperativeHandle(ref, () => {
         return {
             clickHandler: clickHandler,
         }
-    })
+    });
 
     const changeHandler = (e) => {
         setOrderDetails({
@@ -42,7 +52,9 @@ const OrderButton = forwardRef(({ productId }, ref) => {
         });
     }
 
-    const submitHandler = () => {
+    const submitHandler = () => {        
+        console.log("otp", { token, otp })
+        if (otp != token) return;
         try {
             let sessionId;
             const order = {
@@ -50,7 +62,7 @@ const OrderButton = forwardRef(({ productId }, ref) => {
                 shippingFee: orderDetails.shippingFee,
                 orderItems: {
                     amount: orderDetails.amount,
-                    product: productId
+                    product: product._id
                 }
             }
             dispatch(createOrder(order));
@@ -58,10 +70,10 @@ const OrderButton = forwardRef(({ productId }, ref) => {
                 tax: 0,
                 shippingFee: 0,
                 amount: 0
-            });            
+            });
             sessionId = payment?.order?.session?.id;
             console.log("sessionId", payment?.order?.session?.id);
-            clickHandler();
+            setButtonState(!buttonState);
             if (sessionId) {
                 stripe.redirectToCheckout({ sessionId });
             }
@@ -89,6 +101,20 @@ const OrderButton = forwardRef(({ productId }, ref) => {
                         Nice Choice
                     </DialogContentText> */}
                     <Grid rowSpacing={2} columnSpacing={1} container my={4}>
+                        <Grid item xs={6}>
+                            <TextField
+                                label='OTP'
+                                required
+                                helperText={
+                                    !otp && 'Required'
+                                }
+                                maxLength="6"
+                                type='text'
+                                error={!otp}
+                                value={otp}
+                                onChange={(e) => setOtp(e.target.value)}
+                                size='small'
+                            /></Grid>
                         <Grid item xs={6}>
                             <TextField
                                 label='Tax'
@@ -135,18 +161,20 @@ const OrderButton = forwardRef(({ productId }, ref) => {
                                 error={!orderDetails.amount}
                                 value={orderDetails.amount}
                                 onChange={changeHandler}
-                                size='small'                              
+                                size='small'
                             /></Grid>
                     </Grid>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={submitHandler} size="small" type="submit" variant="contained"  >
+                    <Button onClick={submitHandler} size="small" type="submit" variant="contained" disabled={otp.length != 6}  >
                         Buy
                     </Button>
+                    <GPayButton otp={otp} token={token} product={product} amount={Number(orderDetails.amount)} shippingFee={Number(orderDetails.shippingFee)} tax={Number(orderDetails.tax)} />
                 </DialogActions>
-            </Dialog>            
+
+            </Dialog>
         </>
     )
 });
 
-export default OrderButton
+export default OrderButton      

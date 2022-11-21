@@ -19,6 +19,7 @@ import OrderDetails from './order/OrderDetails';
 import CurrentUserCart from './cart/CurrentUserCart';
 import CartItemDetails from './cart/CartItemDetails';
 import CartCheckoutForm from './cart/CartCheckoutForm';
+import CartCheckoutFormEnc from './cart/CartCheckoutFormEnc';
 import Assistant from './Assistant';
 
 export {
@@ -43,5 +44,6 @@ export {
   CurrentUserCart,
   CartItemDetails,
   CartCheckoutForm,
-  Assistant
+  CartCheckoutFormEnc,
+  Assistant,  
 };

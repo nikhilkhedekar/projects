@@ -25,8 +25,8 @@ function Register() {
   });
   const [lngLat, setLngLat] = useState([]);
   const [viewState, setViewState] = useState({
-    latitude: 51.505,
-    longitude: -0.09,
+    latitude: null,
+    longitude: null,
     zoom: 1,
   });
   const [showPopup, setShowPopup] = useState(false);
@@ -40,14 +40,14 @@ function Register() {
     setRegisterUser({ ...registerUser, [e.target.name]: e.target.value });
   };
 
-  const getcurrentLocation = () => {
+  const getcurrentLocation = () => {    
     setCurrentLocationState(true);
     navigator.geolocation.getCurrentPosition((position) => {
       setLngLat([position.coords.longitude, position.coords.latitude]);
       setViewState({
         latitude: position.coords.latitude,
         longitude: position.coords.longitude,
-        zoom: 20,
+        zoom: 13,
       });
       setShowPopup(true);
       console.log("coordinates", { lng: position.coords.longitude, lat: position.coords.latitude, zoom: viewState.zoom });
@@ -62,9 +62,11 @@ function Register() {
 
   const onSubmit = () => {
     try {
-      const data = authCtx.register(registerUser.name, registerUser.email, registerUser.password);
+      const data = authCtx.register(registerUser.name, registerUser.email, registerUser.password, 
+        registerUser.address, lngLat[0], lngLat[1] );
       console.log("registerredUser", data);
       setRegisterUser({ name: '', email: '', password: '' });
+      setLngLat([]);
       alert("Success! Please check your email to verify account");
       navigate("/login");
     } catch (error) {
@@ -136,7 +138,7 @@ function Register() {
 
           <Grid item xs={6}>
             <TextField
-              label='address, city pincode, state, country'
+              label='address, city, pincode, state, country'
               fullWidth
               name="address"
               value={registerUser.address}
@@ -145,7 +147,7 @@ function Register() {
             />
           </Grid>
 
-          <Stack spacing={2} direction='row'>
+          <Stack spacing={2} direction='row' margin={2} >
           <LoadingButton size="large" type="submit" variant="contained" 
             onClick={getcurrentLocation}
             startIcon={<MyLocationIcon />} >
@@ -164,6 +166,7 @@ function Register() {
           currentLocationState && (
             <Map
               id="userLocation"
+              
               style={{ width: 800, height: 500 }}
               mapStyle="mapbox://styles/mapbox/streets-v9"
               mapboxAccessToken={MAPBOX_TOKEN}

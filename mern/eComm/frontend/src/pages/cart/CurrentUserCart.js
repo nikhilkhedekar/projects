@@ -1,38 +1,46 @@
 import { useContext, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux"
-import { Link } from "react-router-dom"
+import { Link, Route, Routes } from "react-router-dom"
 import { currentUserCart } from "../../actions/cartActions";
 import CheckoutButton from "../../components/Order/CheckoutButton";
 import AuthContext from "../../contexts/authContext";
 import { StripeProvider } from "../../providers/stripePaymentIntentProvider";
+import CartCheckoutForm from "./CartCheckoutForm";
 
 import { Typography, Paper, Divider, CardContent, Card, Grid, Box, Stack } from "@mui/material";
+import AlanContext from "../../contexts/alanContext";
 
 const CurrentUserCart = () => {
     const authCtx = useContext(AuthContext);
+    const alanCtx = useContext(AlanContext);
     const dispatch = useDispatch();
     const currentUserCartState = useSelector(state => state?.currentUserCart);
     const checkoutButtonRef = useRef(null);
 
+    alanCtx.alanBtn.setVisualState({ screen: "cart" });
+
     useEffect(() => {
-        if (authCtx?.cartCount != 0) {
+        if (AuthContext.cartCount != 0) {
             dispatch(currentUserCart());
             console.log("currentUseCart", currentUserCartState?.cart);
         }
-    }, [dispatch, currentUserCart])
-
+        if (authCtx.cartCount == 0) {
+            alanCtx.alanBtn.playText("your cart is empty");
+        }
+        console.log("cartLength", currentUserCartState?.cart?.[0]?.cartItems.length);
+    }, [])
 
     return (
         <>
             {
-                currentUserCartState?.cart?.[0]?.cartItems.length >= 1 ? (
+                currentUserCartState && currentUserCartState?.cart?.[0]?.cartItems.length >= 1 ? (
                     <>
                         <Paper sx={{ padding: '32px' }} elevation={2}>
                             <Typography variant="h4" component="div" >USer Id: {currentUserCartState?.cart?.[0]?.user}</Typography>
                             <Divider />
                             <Grid container spacing={3} margin={3} >
                                 {
-                                    currentUserCartState && currentUserCartState?.cart?.[0]?.cartItems.map((item, i) => {
+                                    currentUserCartState?.cart?.[0]?.cartItems.map((item, i) => {
                                         return (
                                             <Grid key={i} item xs={12} sm={6} md={3} >
                                                 <Box width='300px' >
@@ -73,9 +81,7 @@ const CurrentUserCart = () => {
                             <Stack spacing={2} direction='row' margin={2} >
                                 {
                                     authCtx.isLoggedIn && currentUserCartState?.cart?.[0]?.stripe_client_secret && (
-                                        <StripeProvider>
-                                            <CheckoutButton ref={checkoutButtonRef} />
-                                        </StripeProvider>
+                                        <CheckoutButton ref={checkoutButtonRef} />
                                     )
                                 }
                             </Stack>
