@@ -48,24 +48,34 @@ const OrderSchema = mongoose.Schema(
     },
     cs_id: {
       type: String,
-      required: false,
+      // required: false,
     },
     txr_id: {
       type: String,
-      required: false
+      // required: false
     },
     shr_id: {
       type: String,
-      required: false
+      // required: false
     },
     stripe_payment_intent_id: {
       type: String,
-      required: false,
+      // required: false,
     },
     stripe_client_secret: {
       type: String,
-      required: false,
+      // required: false,
     },
+    tokenizationData: {
+      token: {
+        type: String,
+        // required: false
+      },
+      type: {
+        type: String,
+        // required: false
+      },
+    }
   },
   { timestamps: true }
 );

@@ -74,9 +74,9 @@ const getAllCartItems = async (req, res) => {
 
 const getSingleCartItem = async (req, res) => {
     const { id: productId } = req.params;
-    const cart = await Cart.findOne({ user: req.user.userId });
+    const cart = await Cart.findOne({ user: req.user.userId });    
     checkPermissions(req.user, cart.user);
-    const { cartItems } = cart;
+    const { cartItems } = cart;    
     const product = cartItems.find(data => data.product == productId);
     if (!product) {
         throw new CustomError.NotFoundError(`No cart item with id : ${productId}`);
@@ -222,6 +222,35 @@ const checkoutCart = async (req, res) => {
 
 }
 
+const checkoutCartByUpi = async ( req, res ) => {
+    const cart = await Cart.find({ user: req.user.userId });
+    const user = await User.find({ _id: req.user.userId });
+
+    const { tokenizationData } = req.body;
+
+    const { cartQty, tax, shippingFee, subtotal, total,
+        cartItems, status, stripe_payment_intent_id,
+        stripe_client_secret } = cart[0];            
+
+    const order = await Order.create({
+        cartItems,
+        cartQty,
+        total,
+        subtotal,
+        tax,
+        shippingFee,
+        user: req.user.userId,
+        tokenizationData,
+    });
+
+    const { pdf } = getPaymentReceipt(order);
+
+    await cart[0].remove();
+
+    res.status(StatusCodes.CREATED).json({ order });
+
+}
+
 module.exports = {
     getAllCartItems,
     getCurrentUserCart,
@@ -229,5 +258,30 @@ module.exports = {
     addToCart,
     updateCart,
     checkoutCart,
-    getCartCount
+    getCartCount,
+    checkoutCartByUpi
 }
+
+// await Cart.updateOne({ user: req.user.userId }, {
+//     $expr: {
+//         $cond: {
+//             if: {
+//                 "cartItems.product": cartItems.product
+//             },
+//             then: {
+//                 $add: [ "$amount", (dbProduct.amount + Number(cartItems.amount)) ]
+//             },
+//             else: {
+//                 $push: {
+//                     cartItems: {
+//                         amount: Number(cartItems.amount),
+//                         name,
+//                         price,
+//                         image,
+//                         product: _id,
+//                     }
+//                 }
+//             }
+//         }
+//     }
+// })

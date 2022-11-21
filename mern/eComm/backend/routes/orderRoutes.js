@@ -10,6 +10,7 @@ const {
   getSingleOrder,
   getCurrentUserOrders,
   createOrder,
+  gPayUPIMethod,
 } = require('../controllers/orderController');
 
 router
@@ -20,6 +21,13 @@ router
   .get(
     [authenticateUser, authorizePermissions('admin')], 
     getAllOrders);
+
+router
+.route("/upi")
+.post(
+  authenticateUser,
+  gPayUPIMethod
+)
 
 router.route('/showAllMyOrders').get(authenticateUser, getCurrentUserOrders);
 

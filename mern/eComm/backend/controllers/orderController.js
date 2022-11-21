@@ -88,6 +88,25 @@ const createOrder = async (req, res) => {
     .json({ order, session, taxRate, shippingRates });
 };
 
+const gPayUPIMethod = async (req, res) => {
+  console.log("body", req.body);
+  const { singleOrderItem, subtotal, tax, shippingFee, total, tokenizationData } = req.body.productDetails;
+
+  const order = await Order.create({
+    orderItems: singleOrderItem,
+    total,
+    subtotal,
+    tax,
+    shippingFee,
+    user: req.user.userId,
+    tokenizationData,
+  });
+
+  res
+    .status(StatusCodes.CREATED)
+    .json({ order });
+}
+
 const getAllOrders = async (req, res) => {
   const orders = await Order.find({});
   const taxRates = await stripe.taxRates.list();
@@ -125,6 +144,7 @@ module.exports = {
   getSingleOrder,
   getCurrentUserOrders,
   createOrder,
+  gPayUPIMethod
 };
 
 //cancel payment

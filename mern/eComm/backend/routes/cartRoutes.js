@@ -12,7 +12,8 @@ const {
     getCurrentUserCart, 
     updateCart,
     checkoutCart,
-    getCartCount
+    getCartCount,
+    checkoutCartByUpi
 } = require("../controllers/cartController");
 
 router
@@ -47,6 +48,13 @@ router
     authenticateUser,
     checkoutCart
 );
+
+router
+.route("/checkoutByUpi")
+.post(
+    authenticateUser,
+    checkoutCartByUpi
+)
 
 router
 .route("/:id")

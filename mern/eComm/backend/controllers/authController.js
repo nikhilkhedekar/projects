@@ -14,7 +14,7 @@ const stripe = require("stripe")("sk_test_51Lq9DaSCO1V2z2OIoxoHodKnAeK2oOab94zLd
 
 const register = async (req, res) => {
   const { email, name, password, address, long, lat } = req.body;
-
+  console.log("regUser", { email, name, password, address, long, lat });
   const emailAlreadyExists = await User.findOne({ email });
   console.log("emailAlreadyExists", emailAlreadyExists)
   if (emailAlreadyExists) {
@@ -56,16 +56,12 @@ const register = async (req, res) => {
 
 
 
-  const verificationMailResp = await sendVerificationEmail({
+  await sendVerificationEmail({
     name: user.name,
     email: user.email,
     verificationToken: user.verificationToken,
     origin,
   });
-
-  if (verificationMailResp) {
-    throw new CustomError.BadRequestError("Check nodemailer config file login credentials");
-  }
 
   // send verification token back only while testing in postman!!!
   res.status(StatusCodes.CREATED).json({
@@ -220,5 +216,5 @@ module.exports = {
   logout,
   verifyEmail,
   forgotPassword,
-  resetPassword,
+  resetPassword
 };

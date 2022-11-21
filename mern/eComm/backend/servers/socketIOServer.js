@@ -12,38 +12,15 @@ const {
 } = require('../utils/socketIO');
 const Message = require("../models/socketIO/Message");
 const Room = require('../models/socketIO/Room');
-// const authRoutes = require('./routes/authRoutes');
+const connectDB = require("../db/connect");
 // const { instrument } = require("@socket.io/admin-ui");
 
-// var corsOptions = {
-//     origin: 'http://localhost:3000',
-//     credentials: true,
-//     optionsSuccessStatus: 200 // For legacy browser support
-// }
-const PORT = 8000;
+const port = process.env.SOCKET_IO_PORT || 8000;
 
-// const mongoDB = "";
-
-// app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
-// app.use(authRoutes);
 
-const userName = encodeURIComponent("nikhilkhedekar");
-const password = encodeURIComponent("Abcd@1234");
-mongoose.connect(`mongodb+srv://${userName}:${password}@mernstack.ppizwtc.mongodb.net/mernStack?retryWrites=true&w=majority`);
-// mongoose.connect(mongoDB);
-
-// app.get('/set-cookies', (req, res) => {
-//     res.cookie('username', 'Tony');
-//     res.cookie('isAuthenticated', true, { maxAge: 24 * 60 * 60 * 1000 });
-//     res.send('cookies are set');
-// })
-// app.get('/get-cookies', (req, res) => {
-//     const cookies = req.cookies;
-//     console.log(cookies);
-//     res.json(cookies);
-// })
+connectDB(process.env.MONGO_URL);
 
 const socketIOServer = new Server(http, {
     cors: {
@@ -53,11 +30,11 @@ const socketIOServer = new Server(http, {
 
 socketIOServer.on('connection', (socket) => {
     console.log(socket.id);
-    
-    socket.on("user", (userId) => {        
+
+    socket.on("user", (userId) => {
         console.log("user", userId);
         Room.findOne({ user: userId })
-            .then(result => {                
+            .then(result => {
                 socket.emit('output-room', result);
                 console.log("current room id", result);
             })
@@ -67,9 +44,9 @@ socketIOServer.on('connection', (socket) => {
     socket.on('create-room', (name, userId) => {
         console.log('Then room name received is ', name)
         Room.create({ name, user: userId })
-            .then(result => {   
+            .then(result => {
                 socketIOServer.emit("room-created", result);
-                console.log('room-created', result);                
+                console.log('room-created', result);
             })
     });
 
@@ -122,8 +99,8 @@ socketIOServer.on('connection', (socket) => {
 
 // instrument(io, { auth: false })
 
-http.listen(PORT, () => {
-    console.log(`listening on port ${PORT}`);
+http.listen(port, () => {
+    console.log(`listening on port ${port}`);
 });
 
 module.exports = { socketIOServer }

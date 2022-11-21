@@ -87,7 +87,7 @@ const deleteProduct = async (req, res) => {
     throw new CustomError.NotFoundError(`No product with id : ${productId}`);
   }
 
-  await stripe.products.del(product.prod_id);
+  await stripe.products.del(product.prod_id); 
   await product.remove();
 
   res.status(StatusCodes.OK).json({ msg: 'Success! Product removed.' });
