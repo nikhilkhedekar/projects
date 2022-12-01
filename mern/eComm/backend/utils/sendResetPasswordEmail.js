@@ -1,12 +1,13 @@
 const amqplib = require('amqplib/callback_api');
 
 const sendResetPassswordEmail = ({ name, email, token, origin }) => {
+  const url = process.env.CLOUDAMQP_URL || "amqp://localhost";
   const resetURL = `${origin}/user/reset-password?token=${token}&email=${email}`;
   const message = `<p>Please reset password by clicking on the following link : 
   <a href="${resetURL}">Reset Password</a></p>`;
 
   // Create connection to AMQP server
-  amqplib.connect("amqp://localhost", (err, connection) => {
+  amqplib.connect(url, (err, connection) => {
     if (err) {
       console.error(err.stack);
       res.json({ error: err })

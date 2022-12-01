@@ -37,32 +37,11 @@ function App() {
   return (
     <>
       <Header />
-      <Routes>
-        {/** ====================================================================== */}
-        {/* admin routes */}
-
-        {/* admin user routes */}
-        {/* <Route path='/all-users' element{< />} /> */}
-
-        {/* admin product route */}
-        {/* <Route path='/create-product' element={} /> */}
-        {/* <Route path='/products/:id' element={updateproduct} /> */}
-        {/* <Route path='/products/:id' element={deleteproduct} /> */}
-
-        {/* admin order routes */}
-        {/* <Route path='/order' element={getallorders} /> */}
-
-        {/* admin cart routes */}
-        {/* <Route path="/" element={getallusercartitems} /> */}
-
-        {/* admin assistant route */}
-        {/* <Route path="" element={<adminassistantroute />} /> */}
-        {/** ====================================================================== */}
+      <Routes>        
 
         {/** ====================================================================== */}
         {/* user routes */}
-        <Route path='/dashboard' element={<Dashboard />} />
-        {/* <Route path='/user-details' element={get other user details} /> */}
+        <Route path='/dashboard' element={<Dashboard />} />        
         <Route path='/update-user' element={<UpdateUser />} />
         {/* not working */}
         <Route path='/update-user-password' element={<UpdatePassword />} />
@@ -75,8 +54,7 @@ function App() {
         {/** ====================================================================== */}
 
         {/** ====================================================================== */}
-        {/* product review routes */}
-        {/* <Route path="/products/:id/reviews" element={review-count} /> */}
+        {/* product review routes */}        
         <Route path="/reviews" element={<AllReviews />} />
         <Route path="/reviews/:id" element={<GetSingleReview />} />
         {/** ====================================================================== */}
@@ -113,7 +91,7 @@ function App() {
 
         <Route path='*' element={<Error />} />
       </Routes>
-      {/* <Footer /> */}
+      <Footer />
     </>
   );
 }

@@ -6,6 +6,7 @@ const sendVerificationEmail = ({
   verificationToken,
   origin,
 }) => {
+  const url = process.env.CLOUDAMQP_URL || "amqp://localhost";
   const verifyEmail = `${origin}/user/verify-email?token=${verificationToken}&email=${email}`;
   //http://localhost:3000/user/verify-email?token=ecd0c9d5c878c05beb21165eb4916a68508ee9cc53b4224b663cd21699a18b8d23d4a7b7f2f2918d&email=sapna@gmail.com
 
@@ -13,7 +14,7 @@ const sendVerificationEmail = ({
   <a href="${verifyEmail}">Verify Email</a> </p>`;
 
   // Create connection to AMQP server
-  amqplib.connect("amqp://localhost", (err, connection) => {
+  amqplib.connect(url, (err, connection) => {
     if (err) {
       console.error(err.stack);
       res.json({ error: err })

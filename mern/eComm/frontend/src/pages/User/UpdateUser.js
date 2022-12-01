@@ -27,7 +27,7 @@ const UpdateUser = () => {
     const [viewState, setViewState] = useState({
         latitude: null,
         longitude: null,
-        zoom: 1,
+        zoom: 13,
     });
     const [showPopup, setShowPopup] = useState(false);
     const [currentLocationState, setCurrentLocationState] = useState(false);

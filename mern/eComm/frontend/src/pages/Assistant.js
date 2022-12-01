@@ -6,9 +6,9 @@ import Messages from "../components/Assistant/Messages";
 import Input from "../components/Assistant/Input";
 import "../styles/contactUs/Assistant.css";
 
-let connection;
-const Assistant = () => {
 
+const Assistant = () => {
+    let connection;
     const authCtx = useContext(AuthContext);
     const [room, setRoom] = useState({});
     const [userJoined, setUserJoined] = useState(false);

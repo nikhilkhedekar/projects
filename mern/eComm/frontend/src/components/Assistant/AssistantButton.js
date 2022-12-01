@@ -2,9 +2,10 @@ import { io } from 'socket.io-client';
 import { useContext, useEffect, useId, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import AuthContext from '../../contexts/authContext';
+import ContactMailIcon from '@mui/icons-material/ContactMail';
 
-let connection;
 const AssistantButton = () => {
+    let connection;
     const authCtx = useContext(AuthContext);    
     const [room, setRoom] = useState(null);
     let createRoomFlag = false;
@@ -12,13 +13,16 @@ const AssistantButton = () => {
     const navigate = useNavigate()
 
     const existingRoom = () => {
+        
         connection.on("output-room", (roomData) => {
             setRoom(roomData);
             console.log("output-room", room);
         });
     }
 
-    const createRoom = () => {        
+    const createRoom = () => {   
+             
+        console.log("create-room", roomName);
         connection.emit("create-room", roomName, authCtx?.user?.userId);
         console.log("create-room", roomName);
         createRoomFlag = true;
@@ -26,6 +30,7 @@ const AssistantButton = () => {
     }
 
     const roomCreated = () => {        
+        
         connection.on("room-created", (roomData) => {            
             setRoom(roomData);
             console.log("room-created", room);
@@ -34,6 +39,7 @@ const AssistantButton = () => {
     }
 
     useEffect(() => {
+        
         connection = io("http://localhost:8000");
         connection.on("connection");
         connection.emit("user", authCtx?.user?.userId);
@@ -42,6 +48,7 @@ const AssistantButton = () => {
     }, [authCtx]);
 
     const clickHandler = (e) => {
+        
         e.preventDefault();    
         if (room == [] || room == null || room == undefined) {
             createRoom();

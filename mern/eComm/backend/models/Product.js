@@ -69,7 +69,7 @@ const ProductSchema = new mongoose.Schema(
     store: {
       type: mongoose.Types.ObjectId,
       ref: "Store",
-      required: true,
+      required: false,
     },
     prod_id: {
       type: String,

@@ -5,9 +5,10 @@ const sendPaymentReceiptEmail = async ({
     email,
     fileName
 }) => {
+    const url = process.env.CLOUDAMQP_URL || "amqp://localhost";
     const message = `<p>Please find payment receipt in attachments</p>`;
     // Create connection to AMQP server
-    return amqplib.connect("amqp://localhost", (err, connection) => {
+    return amqplib.connect(url, (err, connection) => {
         if (err) {
             console.error(err.stack);
             res.json({ error: err })

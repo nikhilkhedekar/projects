@@ -20,8 +20,8 @@ const StoreLocations = () => {
             id="storeLocations"
             style={{ width: 800, height: 600 }}
             initialViewState={{
-                latitude: 19.1538,
-                longitude: 72.8752,
+                latitude: 19.2056502,
+                longitude: 72.8176095,
                 zoom: 13
             }}
             mapStyle="mapbox://styles/mapbox/streets-v9"
@@ -38,7 +38,7 @@ const StoreLocations = () => {
                                         <Popup
                                             longitude={stores.location.coordinates[0]}
                                             latitude={stores.location.coordinates[1]}
-                                            anchor="bottom"
+                                            anchor="right"
                                             onClose={() => setShowPopup(false)}>
                                             <div >
                                                 {stores.storeId}

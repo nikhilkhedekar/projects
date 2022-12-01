@@ -1,6 +1,7 @@
 const nodemailer = require('nodemailer');
 const nodemailerConfig = require('./nodemailerConfig');
 const amqplib = require('amqplib/callback_api');
+const url = process.env.CLOUDAMQP_URL || "amqp://localhost";
 
 // let testAccount = nodemailer.createTestAccount();
 
@@ -9,8 +10,8 @@ const transporter = nodemailer.createTransport({
   host: 'smtp.ethereal.email',
   port: 587,
   auth: {
-    user: "johnathan.boyer@ethereal.email",//testAccount.user,
-    pass: "V7fsrNdDP6th7psYxV",//testAccount.pass,
+    user: "emily.schroeder@ethereal.email",//testAccount.user,
+    pass: "3ySSDNe8VmXm4ed8KK",//testAccount.pass,
   },
   // service: "gmail",
   // auth: {
@@ -19,7 +20,7 @@ const transporter = nodemailer.createTransport({
   // },
 });
 
-amqplib.connect("amqp://localhost", (err, connection) => {
+amqplib.connect(url, (err, connection) => {
   console.log("connected");
   if (err) {
     console.error(err.stack);

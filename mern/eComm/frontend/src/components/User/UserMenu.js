@@ -45,36 +45,36 @@ const UserMenu = forwardRef((props, ref) => {
                 anchor='left'
                 open={isDrawerOpen}
                 onClose={drawerHandler} >
-                    <Box p={2} width='250px' role='presentation' textAlign='center' sx={{ width: '400px', bgcolor: '#efefef' }}>
-                        <List>
-                            <ListItem disablePadding>
-                                <ListItemButton>
-                                    <ListItemIcon>
-                                        <EditIcon />
-                                    </ListItemIcon>
-                                    <Link to="/update-user" onClick={drawerHandler} > Update User Info </Link>
-                                </ListItemButton>
-                            </ListItem>
-                            <Divider />
-                            <ListItem disablePadding>
-                                <ListItemButton>
-                                    <ListItemIcon>
-                                        <LockResetIcon />
-                                    </ListItemIcon>
-                                    <Link to="/update-user-password" onClick={drawerHandler} > Reset Password </Link>
-                                </ListItemButton>
-                            </ListItem>
-                            <Divider />
-                            <ListItem disablePadding>
-                                <ListItemButton>
-                                    <ListItemIcon>
-                                        <HistoryIcon />
-                                    </ListItemIcon>
-                                    <Link to="/orders/user-orders" onClick={drawerHandler} > Your Order History </Link>
-                                </ListItemButton>
-                            </ListItem>
-                        </List>
-                    </Box>
+                <Box p={2} width='250px' role='presentation' textAlign='center' sx={{ width: '400px', bgcolor: '#efefef' }}>
+                    <List>
+                        <ListItem disablePadding>
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    <EditIcon />
+                                </ListItemIcon>
+                                <Link to="/update-user" onClick={drawerHandler} > Update User Info </Link>
+                            </ListItemButton>
+                        </ListItem>
+                        <Divider />
+                        <ListItem disablePadding>
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    <LockResetIcon />
+                                </ListItemIcon>
+                                <Link to="/update-user-password" onClick={drawerHandler} > Reset Password </Link>
+                            </ListItemButton>
+                        </ListItem>
+                        <Divider />
+                        <ListItem disablePadding>
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    <HistoryIcon />
+                                </ListItemIcon>
+                                <Link to="/orders/user-orders" onClick={drawerHandler} > Your Order History </Link>
+                            </ListItemButton>
+                        </ListItem>
+                    </List>
+                </Box>
             </Drawer>
         </Stack >
     )
